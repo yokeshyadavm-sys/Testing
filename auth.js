@@ -1,8 +1,3 @@
-const LOCAL_ALLOWED_USERS = [
-    'yokeshyadavm@gmail.com',
-    'bpm@lawhands.org'
-];
-
 document.addEventListener('DOMContentLoaded', async () => {
     const errorDiv = document.getElementById('auth-error');
 
@@ -25,15 +20,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const { data: { session } } = await window.supabaseClient.auth.getSession();
         if (session) {
-            const email = session.user.email;
-            if (LOCAL_ALLOWED_USERS.includes(email)) {
-                window.location.replace('dashboard.html');
-                return;
-            } else {
-                await window.supabaseClient.auth.signOut();
-                errorDiv.textContent = "Access Denied. Your email is not authorized.";
-                errorDiv.style.display = 'block';
-            }
+            window.location.replace('dashboard.html');
+            return;
         }
     } catch (err) {
         console.error("Session check error on login:", err);
@@ -53,10 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             errorDiv.style.display = 'none';
 
             try {
-                if (!LOCAL_ALLOWED_USERS.includes(email)) {
-                    throw new Error("Access Denied. Your email is not authorized for this ERP.");
-                }
-
                 const { data, error } = await window.supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,

@@ -1,10 +1,4 @@
 // >>> IMPORTANT: REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS <<<
-const ALLOWED_USERS = [
-    'yokeshyadavm@gmail.com',
-    'bpm@lawhands.org'
-];
-window.ALLOWED_USERS = ALLOWED_USERS;
-
 const SUPABASE_URL = "https://sqxhyttacorsejczhryc.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxeGh5dHRhY29yc2VqY3pocnljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MDM1ODMsImV4cCI6MjA4NzQ3OTU4M30.GyrZlAJkRlfLHimHU_F7JEropvP_oyYvTSpLNcmXcVA";
 
@@ -32,16 +26,7 @@ async function checkAuth() {
 
         const email = session.user.email;
 
-        // Strict access check
-        if (!window.ALLOWED_USERS.includes(email)) {
-            await window.supabaseClient.auth.signOut();
-            if (!isLoginPage) {
-                window.location.replace('index.html?error=unauthorized');
-            }
-            return null;
-        }
-
-        // Role determination
+        // Role determination: if it's the specific manager email, assign Manager, else Associate
         const role = email === 'bpm@lawhands.org' ? 'Manager' : 'Associate';
 
         return { session, user: session.user, role };
