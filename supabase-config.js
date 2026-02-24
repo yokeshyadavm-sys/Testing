@@ -9,6 +9,8 @@ const SUPABASE_URL = "https://sqxhyttacorsejczhryc.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxeGh5dHRhY29yc2VqY3pocnljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MDM1ODMsImV4cCI6MjA4NzQ3OTU4M30.GyrZlAJkRlfLHimHU_F7JEropvP_oyYvTSpLNcmXcVA";
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+window.supabaseClient = supabase; // Expose globally 
+
 
 /**
  * Checks if the user is authenticated and authorized.
@@ -17,7 +19,7 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  */
 async function checkAuth() {
     try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+        const { data: { session }, error } = await window.supabaseClient.auth.getSession();
 
         const isLoginPage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
 
@@ -31,8 +33,8 @@ async function checkAuth() {
         const email = session.user.email;
 
         // Strict access check
-        if (!ALLOWED_USERS.includes(email)) {
-            await supabase.auth.signOut();
+        if (!window.ALLOWED_USERS.includes(email)) {
+            await window.supabaseClient.auth.signOut();
             if (!isLoginPage) {
                 window.location.replace('index.html?error=unauthorized');
             }
@@ -51,7 +53,7 @@ async function checkAuth() {
 
 // Global logout handler
 async function handleLogout() {
-    await supabase.auth.signOut();
+    await window.supabaseClient.auth.signOut();
     window.location.href = 'index.html';
 }
 

@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Check if we already have an active authorized session
     try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
         if (session) {
             const email = session.user.email;
             if (LOCAL_ALLOWED_USERS.includes(email)) {
                 window.location.replace('dashboard.html');
                 return;
             } else {
-                await supabase.auth.signOut();
+                await window.supabaseClient.auth.signOut();
                 errorDiv.textContent = "Access Denied. Your email is not authorized.";
                 errorDiv.style.display = 'block';
             }
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     throw new Error("Access Denied. Your email is not authorized for this ERP.");
                 }
 
-                const { data, error } = await supabase.auth.signInWithPassword({
+                const { data, error } = await window.supabaseClient.auth.signInWithPassword({
                     email: email,
                     password: password,
                 });
