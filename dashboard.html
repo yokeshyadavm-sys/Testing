@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Corporate ERP</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body">
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="company-logo-small">LawHands</span>
+            <span class="user-greeting" id="user-greeting">Loading...</span>
+        </div>
+        <div class="nav-right">
+            <a href="create-task.html" class="btn btn-primary btn-sm" id="create-task-btn" style="display: none;">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+                Create Task
+            </a>
+            <button id="logout-btn" class="btn btn-outline btn-sm">Logout</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Manager Dashboard Cards -->
+        <div class="summary-cards" id="summary-cards" style="display: none;">
+            <div class="card">
+                <h3>Total Tasks</h3>
+                <p id="total-tasks">0</p>
+            </div>
+            <div class="card">
+                <h3>Completed</h3>
+                <p id="total-completed">0</p>
+            </div>
+            <div class="card">
+                <h3>Active & In Progress</h3>
+                <p id="total-active">0</p>
+            </div>
+            <div class="card">
+                <h3>Overdue</h3>
+                <p id="total-overdue" class="text-danger">0</p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h2>Tasks</h2>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="task-table">
+                    <thead>
+                        <tr>
+                            <th>Assignee</th>
+                            <th>Task Title</th>
+                            <th>Date Created</th>
+                            <th>Due Date</th>
+                            <th>Assigned By</th>
+                            <th>Status</th>
+                            <th>Reason / Comments</th>
+                            <th>Completed</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-table-body">
+                        <tr>
+                            <td colspan="9" class="text-center">Loading tasks...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Task Description Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Task Title</h2>
+            <div class="modal-body">
+                <p><strong>Description:</strong></p>
+                <div id="modal-desc" class="desc-box"></div>
+
+                <div class="meta-info">
+                    <p><strong>Assigned To:</strong> <span id="modal-assignee"></span></p>
+                    <p><strong>Assigned By:</strong> <span id="modal-assigner"></span></p>
+                    <p><strong>Due Date:</strong> <span id="modal-due"></span></p>
+                    <p><strong>Recurring:</strong> <span id="modal-recurring"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
