@@ -1,5 +1,16 @@
+const LOCAL_ALLOWED_USERS = [
+    'yokeshyadavm@gmail.com',
+    'bpm@lawhands.org'
+];
+
 document.addEventListener('DOMContentLoaded', async () => {
     const errorDiv = document.getElementById('auth-error');
+
+    if (typeof supabase === 'undefined') {
+        errorDiv.textContent = "Error: Database connection failed (Supabase is not defined). Please hard-refresh your browser (Ctrl+F5) or disable tracking blockers.";
+        errorDiv.style.display = 'block';
+        return;
+    }
 
     // Check URL parameters for redirect errors
     const urlParams = new URLSearchParams(window.location.search);
@@ -7,7 +18,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (errorMsg === 'unauthorized') {
         errorDiv.textContent = "Access Denied. Your email is not authorized for this ERP.";
         errorDiv.style.display = 'block';
-        // Clean URL after showing error
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
@@ -16,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
             const email = session.user.email;
-            if (ALLOWED_USERS.includes(email)) {
+            if (LOCAL_ALLOWED_USERS.includes(email)) {
                 window.location.replace('dashboard.html');
                 return;
             } else {
@@ -43,8 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             errorDiv.style.display = 'none';
 
             try {
-                // Pre-check if email is in ALLOWED_USERS before even calling Supabase to save time/requests
-                if (!ALLOWED_USERS.includes(email)) {
+                if (!LOCAL_ALLOWED_USERS.includes(email)) {
                     throw new Error("Access Denied. Your email is not authorized for this ERP.");
                 }
 

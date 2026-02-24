@@ -1,13 +1,14 @@
 // >>> IMPORTANT: REPLACE THESE WITH YOUR ACTUAL SUPABASE CREDENTIALS <<<
-const SUPABASE_URL = "https://sqxhyttacorsejczhryc.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxeGh5dHRhY29yc2VqY3pocnljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MDM1ODMsImV4cCI6MjA4NzQ3OTU4M30.GyrZlAJkRlfLHimHU_F7JEropvP_oyYvTSpLNcmXcVA";
-
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 const ALLOWED_USERS = [
     'yokeshyadavm@gmail.com',
     'bpm@lawhands.org'
 ];
+window.ALLOWED_USERS = ALLOWED_USERS;
+
+const SUPABASE_URL = "https://sqxhyttacorsejczhryc.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNxeGh5dHRhY29yc2VqY3pocnljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5MDM1ODMsImV4cCI6MjA4NzQ3OTU4M30.GyrZlAJkRlfLHimHU_F7JEropvP_oyYvTSpLNcmXcVA";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
  * Checks if the user is authenticated and authorized.
